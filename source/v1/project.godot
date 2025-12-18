@@ -1,0 +1,40 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="CoinFlipFactory"
+run/main_scene="uid://bdkqm8kugqp5b"
+config/features=PackedStringArray("4.5", "GL Compatibility")
+config/icon="res://icon.svg"
+
+[autoload]
+
+GameData="*res://game/game_data.gd"
+
+[debug]
+
+gdscript/warnings/integer_division=0
+
+[display]
+
+mouse_cursor/custom_image="uid://dmdb8xf43mrqo"
+mouse_cursor/custom_image_hotspot=Vector2(6, 3)
+mouse_cursor/tooltip_position_offset=Vector2(25, 25)
+
+[gui]
+
+theme/custom="uid://dneg1tfypapg1"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true

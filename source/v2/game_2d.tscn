@@ -1,0 +1,65 @@
+[gd_scene load_steps=4 format=3 uid="uid://c5q875odje0fp"]
+
+[ext_resource type="TileSet" uid="uid://bj3hg1ulek244" path="res://assets/tileset.tres" id="1_iddsw"]
+[ext_resource type="Script" uid="uid://cq37ra4ghvw5v" path="res://map.gd" id="2_64hpc"]
+
+[sub_resource type="GDScript" id="GDScript_e2o6t"]
+script/source = "extends Label
+
+var format_text: String
+
+func _ready() -> void:
+	GameData.money_changed.connect(update)
+	format_text = text
+	update(0, 0)
+
+func update(new_value: int, _change: int):
+	text = format_text % roundi(new_value)
+"
+
+[node name="game" type="Node2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("1_iddsw")
+collision_enabled = false
+navigation_enabled = false
+script = ExtResource("2_64hpc")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GameOverlay" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MoneyLabel" type="Label" parent="CanvasLayer/GameOverlay"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "%s $"
+script = SubResource("GDScript_e2o6t")
+
+[node name="CoinUpgrade" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/CoinUpgrade"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -418.0
+grow_horizontal = 0
+grow_vertical = 2

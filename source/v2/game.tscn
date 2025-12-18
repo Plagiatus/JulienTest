@@ -1,0 +1,232 @@
+[gd_scene load_steps=14 format=3 uid="uid://c4mts5bva7un7"]
+
+[ext_resource type="PackedScene" uid="uid://cj4lp0vpnu438" path="res://world/default_tile.tscn" id="1_80nbo"]
+[ext_resource type="Script" uid="uid://dy6j35sg0tmhe" path="res://game.gd" id="1_fc0e3"]
+[ext_resource type="PackedScene" uid="uid://u8d2vs780hgk" path="res://coins/coin.tscn" id="2_e2o6t"]
+[ext_resource type="Script" uid="uid://drxyotmgqkgym" path="res://ui.gd" id="3_feb5d"]
+[ext_resource type="PackedScene" uid="uid://wusm4xl41ovt" path="res://coins/coin_viewport.tscn" id="5_7jktm"]
+[ext_resource type="PackedScene" uid="uid://bgaj0qu0cdgkn" path="res://ui/UpgradePaths.tscn" id="6_ryrav"]
+
+[sub_resource type="Environment" id="Environment_e2o6t"]
+background_mode = 1
+
+[sub_resource type="GDScript" id="GDScript_e2o6t"]
+script/source = "extends Label
+
+var format_text: String
+
+func _ready() -> void:
+	GameData.money_changed.connect(update)
+	format_text = text
+	update(0, 0)
+
+func update(new_value: int, _change: int):
+	text = format_text % roundi(new_value)
+"
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_fc0e3"]
+viewport_path = NodePath("UI/GameOverlay/BuyCoinButton/CoinViewport")
+
+[sub_resource type="GDScript" id="GDScript_ryrav"]
+script/source = "extends Control
+
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var upgrade_container: VBoxContainer = $PanelContainer/MarginContainer/UpgradeContainer
+const UPGRADE_PATHS = preload(\"uid://bgaj0qu0cdgkn\")
+
+var active_coin: Coin
+
+func enable(coin: Coin):
+	_setup(coin)
+	if active_coin == coin:
+		disable()
+		return
+	if visible: return
+	show()
+	active_coin = coin
+	animation_player.play(\"show\")
+
+func _setup(coin: Coin):
+	#for child in upgrade_container.get_children():
+		#child.queue_free()
+	#var path = UPGRADE_PATHS.instantiate()
+	#var next_upgrade = coin.upgrade_path
+	#while next_upgrade:
+	pass
+		
+
+func disable():
+	active_coin = null
+	animation_player.play_backwards(\"show\")
+	await animation_player.animation_finished
+	hide()
+"
+
+[sub_resource type="Animation" id="Animation_ryrav"]
+resource_name = "show"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1200, 0), Vector2(734, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_eow3j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(734, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j5wjh"]
+_data = {
+&"RESET": SubResource("Animation_eow3j"),
+&"show": SubResource("Animation_ryrav")
+}
+
+[node name="game" type="Node3D"]
+script = ExtResource("1_fc0e3")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.7071068, -0.3535534, 0.61237246, 0, 0.8660254, 0.50000006, -0.7071068, -0.3535534, 0.61237246, 8.5, 6.879, 8.5)
+projection = 1
+size = 3.0
+
+[node name="Grid" type="Node3D" parent="."]
+
+[node name="DefaultTile" parent="Grid" instance=ExtResource("1_80nbo")]
+
+[node name="3DCoin" parent="Grid/DefaultTile" instance=ExtResource("2_e2o6t")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_e2o6t")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(0.85153484, -0.506433, 0.13569832, 0, 0.25881907, 0.9659258, -0.524298, -0.8225195, 0.22039346, 0, 0, 0)
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("3_feb5d")
+
+[node name="GameOverlay" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="MoneyLabel" type="Label" parent="UI/GameOverlay"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "%s $"
+script = SubResource("GDScript_e2o6t")
+
+[node name="BuyCoinButton" type="TextureButton" parent="UI/GameOverlay"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -128.0
+offset_right = 128.0
+grow_vertical = 0
+texture_normal = SubResource("ViewportTexture_fc0e3")
+
+[node name="Panel" type="Panel" parent="UI/GameOverlay/BuyCoinButton"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="CoinViewport" parent="UI/GameOverlay/BuyCoinButton" instance=ExtResource("5_7jktm")]
+
+[node name="Label" type="Label" parent="UI/GameOverlay/BuyCoinButton"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "Buy 1 Iron Coin"
+horizontal_alignment = 1
+
+[node name="Price" type="Label" parent="UI/GameOverlay/BuyCoinButton"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "free"
+horizontal_alignment = 1
+
+[node name="CoinUpgrade" type="Control" parent="UI"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = SubResource("GDScript_ryrav")
+
+[node name="PanelContainer" type="PanelContainer" parent="UI/CoinUpgrade"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_right = 466.00073
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/CoinUpgrade/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+metadata/_edit_lock_ = true
+
+[node name="UpgradeContainer" type="VBoxContainer" parent="UI/CoinUpgrade/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="UpgradePath" parent="UI/CoinUpgrade/PanelContainer/MarginContainer/UpgradeContainer" instance=ExtResource("6_ryrav")]
+layout_mode = 2
+
+[node name="UpgradePath2" parent="UI/CoinUpgrade/PanelContainer/MarginContainer/UpgradeContainer" instance=ExtResource("6_ryrav")]
+layout_mode = 2
+
+[node name="UpgradePath3" parent="UI/CoinUpgrade/PanelContainer/MarginContainer/UpgradeContainer" instance=ExtResource("6_ryrav")]
+layout_mode = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/CoinUpgrade"]
+libraries = {
+&"": SubResource("AnimationLibrary_j5wjh")
+}
+
+[connection signal="button_down" from="UI/GameOverlay/BuyCoinButton" to="." method="_on_buy_coin_button_button_down"]

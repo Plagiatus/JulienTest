@@ -1,0 +1,222 @@
+[gd_scene load_steps=19 format=3 uid="uid://b1timayblmllq"]
+
+[ext_resource type="Script" uid="uid://bpl4beilhhk7g" path="res://game/coins/coin.gd" id="1_hsuh7"]
+[ext_resource type="Texture2D" uid="uid://dm2rwp4uiis4s" path="res://icon.svg" id="1_rr45f"]
+[ext_resource type="Script" uid="uid://b6ajrt0j4q4c0" path="res://game/coins/amount_label.gd" id="3_1sjuj"]
+[ext_resource type="FontFile" uid="uid://cqlc7ywkw2htb" path="res://game/ui/Kenney Future.ttf" id="3_lgunv"]
+
+[sub_resource type="Curve" id="Curve_hsuh7"]
+_limits = [0.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 13.438205, 0, 0, Vector2(0.36413044, 2), 0.0, 0.0, 0, 0, Vector2(0.61413044, 2), 0.0, 0.0, 0, 0, Vector2(1, 0), -11.813818, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6dhsq"]
+albedo_color = Color(0.73333335, 0, 0.1764706, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rr45f"]
+albedo_color = Color(0.5940993, 0.9969527, 0.6991089, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hsuh7"]
+height = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1sjuj"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+disable_ambient_light = true
+disable_fog = true
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.7260086, 0.16787216, 0.16669214, 1)
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_lgunv"]
+material = SubResource("StandardMaterial3D_1sjuj")
+
+[sub_resource type="Gradient" id="Gradient_31yfh"]
+offsets = PackedFloat32Array(0.39041096, 0.72602737)
+colors = PackedColorArray(0, 0, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_lgunv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.12377614, 0.06216255)]
+}
+
+[sub_resource type="Animation" id="Animation_1sjuj"]
+resource_name = "rise"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.34150997, 0.3789289),
+"update": 0,
+"values": [Vector3(0, 0.12377614, 0.06216255), Vector3(0, 0.20404556, 0.06216255)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_31yfh"]
+_data = {
+&"RESET": SubResource("Animation_lgunv"),
+&"rise": SubResource("Animation_1sjuj")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hsuh7"]
+vertex_color_use_as_albedo = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_1sjuj"]
+material = SubResource("StandardMaterial3D_hsuh7")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lgunv"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="TextMesh" id="TextMesh_hsuh7"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_lgunv")
+text = "1x 0.25 $"
+depth = 0.01
+
+[node name="BaseCoin" type="Node3D"]
+script = ExtResource("1_hsuh7")
+flight_curve = SubResource("Curve_hsuh7")
+
+[node name="CoinPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+
+[node name="Tails" type="CSGCylinder3D" parent="CoinPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.025, 0)
+height = 0.05
+sides = 20
+material = SubResource("StandardMaterial3D_6dhsq")
+
+[node name="Sprite3D" type="Sprite3D" parent="CoinPivot/Tails"]
+transform = Transform3D(0.4370888, 0, 0, 0, -1.9105757e-08, 0.4370888, 0, -0.4370888, -1.9105757e-08, 0, 0.08636833, 0)
+texture = ExtResource("1_rr45f")
+
+[node name="Heads" type="CSGCylinder3D" parent="CoinPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+height = 0.05
+sides = 20
+material = SubResource("StandardMaterial3D_rr45f")
+
+[node name="Area3D" type="Area3D" parent="CoinPivot"]
+collision_layer = 128
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CoinPivot/Area3D"]
+shape = SubResource("CylinderShape3D_hsuh7")
+
+[node name="FireParticles" type="CPUParticles3D" parent="CoinPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+emitting = false
+amount = 10
+mesh = SubResource("QuadMesh_lgunv")
+emission_shape = 1
+emission_sphere_radius = 0.5
+direction = Vector3(0, 1, 0)
+spread = 10.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+angular_velocity_max = 40.0
+angle_max = 360.0
+scale_amount_min = 0.1
+scale_amount_max = 0.2
+color_initial_ramp = SubResource("Gradient_31yfh")
+
+[node name="StreakLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.01, 0.6)
+visible = false
+text = "2 🔥"
+font = ExtResource("3_lgunv")
+
+[node name="AmountLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.12377614, 0.06216255)
+render_priority = 1
+outline_render_priority = 0
+modulate = Color(0.5736558, 0.9999997, 0.6067891, 1)
+text = "1 x 0.25 $"
+font = ExtResource("3_lgunv")
+script = ExtResource("3_1sjuj")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AmountLabel"]
+libraries = {
+&"": SubResource("AnimationLibrary_31yfh")
+}
+
+[node name="SuccessParticles" type="CPUParticles3D" parent="."]
+emitting = false
+one_shot = true
+explosiveness = 0.9
+lifetime_randomness = 0.2
+mesh = SubResource("BoxMesh_1sjuj")
+emission_colors = PackedColorArray(0.5372549, 0, 0, 1, 0, 0.7607843, 0, 1)
+direction = Vector3(0, 1, 0)
+spread = 10.0
+gravity = Vector3(0, -5, 0)
+initial_velocity_min = 4.0
+initial_velocity_max = 5.0
+angular_velocity_max = 45.0
+damping_min = 2.0
+damping_max = 2.5
+angle_max = 360.0
+scale_amount_min = 0.2
+scale_amount_max = 0.3
+color = Color(0.19607843, 1, 0.37254903, 1)
+hue_variation_min = -1.0
+hue_variation_max = 1.0
+
+[node name="AmountParticle" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.18138158, 0)
+emitting = false
+amount = 1
+lifetime = 0.75
+one_shot = true
+mesh = SubResource("TextMesh_hsuh7")
+direction = Vector3(0, 0, 1)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 0.1
+initial_velocity_max = 0.1
+
+[connection signal="input_event" from="CoinPivot/Area3D" to="." method="_on_area_3d_input_event"]
+[connection signal="mouse_entered" from="CoinPivot/Area3D" to="." method="_on_area_3d_mouse_entered"]

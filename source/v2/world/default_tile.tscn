@@ -1,0 +1,97 @@
+[gd_scene load_steps=13 format=3 uid="uid://cj4lp0vpnu438"]
+
+[ext_resource type="Script" uid="uid://dc22cxaqqpcob" path="res://world/default_tile.gd" id="1_bvwpx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mwb40"]
+resource_local_to_scene = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ol8ri"]
+size = Vector3(1, 0.1, 1)
+
+[sub_resource type="Animation" id="Animation_ol8ri"]
+resource_name = "spawn"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.26666668),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(1.1, 1.1, 1.1), Vector3(1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_bvwpx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Visuals:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f472d"]
+_data = {
+&"RESET": SubResource("Animation_bvwpx"),
+&"spawn": SubResource("Animation_ol8ri")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ol8ri"]
+animation = &"RESET"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bvwpx"]
+animation = &"spawn"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_f472d"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ol8ri"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_bvwpx"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_rjyc0"]
+states/RESET/node = SubResource("AnimationNodeAnimation_ol8ri")
+states/RESET/position = Vector2(501, 105)
+states/Start/position = Vector2(196, 100)
+states/spawn/node = SubResource("AnimationNodeAnimation_bvwpx")
+states/spawn/position = Vector2(355, 113)
+transitions = ["Start", "spawn", SubResource("AnimationNodeStateMachineTransition_f472d"), "spawn", "RESET", SubResource("AnimationNodeStateMachineTransition_ol8ri"), "RESET", "End", SubResource("AnimationNodeStateMachineTransition_bvwpx")]
+
+[node name="DefaultTile" type="Node3D"]
+script = ExtResource("1_bvwpx")
+
+[node name="Visuals" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+size = Vector3(0.98, 0.1, 0.98)
+material = SubResource("StandardMaterial3D_mwb40")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_ol8ri")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_f472d")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_rjyc0")
+anim_player = NodePath("../AnimationPlayer")
+
+[connection signal="mouse_entered" from="Area3D" to="." method="_on_area_3d_mouse_entered"]
+[connection signal="mouse_exited" from="Area3D" to="." method="_on_area_3d_mouse_exited"]

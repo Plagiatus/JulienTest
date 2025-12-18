@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://wusm4xl41ovt"]
+
+[ext_resource type="PackedScene" uid="uid://u8d2vs780hgk" path="res://coins/coin.tscn" id="1_4wbc8"]
+
+[node name="CoinViewport" type="SubViewport"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(128, 128)
+render_target_update_mode = 4
+
+[node name="3DCoin" parent="." instance=ExtResource("1_4wbc8")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.7071068, -0.3535534, 0.61237246, 0, 0.8660254, 0.50000006, -0.7071068, -0.3535534, 0.61237246, 8.5, 7, 8.5)
+projection = 1
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.85153484, -0.506433, 0.13569832, 0, 0.25881907, 0.9659258, -0.524298, -0.8225195, 0.22039346, 0, 0, 0)

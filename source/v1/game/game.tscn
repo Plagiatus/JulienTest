@@ -1,0 +1,394 @@
+[gd_scene load_steps=12 format=3 uid="uid://bdkqm8kugqp5b"]
+
+[ext_resource type="PackedScene" uid="uid://b1timayblmllq" path="res://game/coins/base_coin.tscn" id="1_l1rk1"]
+[ext_resource type="Script" uid="uid://c3y5ft3lmis5n" path="res://game/game.gd" id="1_vasa2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l1rk1"]
+albedo_color = Color(0.60933006, 0.6093301, 0.60933006, 1)
+
+[sub_resource type="Environment" id="Environment_l1rk1"]
+ambient_light_color = Color(1, 1, 1, 1)
+
+[sub_resource type="GDScript" id="GDScript_h7iqs"]
+script/source = "extends UpgradeButton
+
+func _update_text():
+	if current_item < prices.size():
+		text = text_format.format([prices[current_item]],\"%_\")
+	else:
+		text = \"Max coins bought\"
+
+func _click():
+	if not visible: return
+	if disabled: return
+	if current_item >= prices.size(): return
+	if current_price > GameData.money: return
+	_next_item()
+	owner.add_coin()
+
+
+func _next_item():
+	var price = current_price
+	current_item+=1
+	if current_item >= prices.size():
+		current_item = prices.size() - 1
+	current_price = prices[current_item]
+	GameData.money -= price
+	
+	_update_text()
+"
+
+[sub_resource type="GDScript" id="GDScript_4fuuu"]
+script/source = "extends UpgradeButton
+@onready var amount: Label = $\"../../../../StatsContainer/MoneyPerHeads/Amount\"
+
+
+
+func _ready():
+	super()
+	amount.text = \"%s $\" % GameData.base_value
+
+func _update_text():
+	if current_item < prices.size():
+		text = text_format.format([prices[current_item], GameData.base_value * 2],\"%_\")
+	else:
+		text = \"Max base value upgrades bought\"
+
+func _click():
+	if not visible: return
+	if disabled: return
+	if current_item >= prices.size(): return
+	if current_price > GameData.money: return
+	var price = current_price
+	GameData.base_value *= 2
+	current_item += 1
+	if current_item < prices.size():
+		current_price = prices[current_item]
+	else:
+		sold_out = true
+	GameData.money -= price
+	
+	_update_text()
+	
+	amount.text = \"%s $\" % GameData.base_value
+"
+
+[sub_resource type="GDScript" id="GDScript_dxrkv"]
+script/source = "extends UpgradeButton
+
+@export var chance_improvement: float = 0.05
+@onready var amount: Label = $\"../../../../StatsContainer/HeadsChance/Amount\"
+
+func _ready():
+	super()
+	amount.text = str(int(GameData.head_chance * 100)) + \" %\"
+
+func _update_text():
+	if current_item < prices.size():
+		text = text_format.format([prices[current_item], roundi(100* chance_improvement), roundi((GameData.head_chance + chance_improvement) * 100)],\"%_\")
+	else:
+		text = \"Max Head Chance bought\"
+
+func _click():
+	if not visible: return
+	if disabled: return
+	if current_item >= prices.size(): return
+	if current_price > GameData.money: return
+	GameData.head_chance += chance_improvement
+	_next_item()
+	amount.text = str(roundi(GameData.head_chance * 100)) + \" %\"
+"
+
+[sub_resource type="GDScript" id="GDScript_dakft"]
+script/source = "extends UpgradeButton
+
+@export var decrease_amount: float = 0.25
+@onready var amount: Label = $\"../../../../StatsContainer/FlipDuration/Amount\"
+
+func _ready():
+	super()
+	amount.text = \"%ss\" % GameData.flip_duration
+
+func _update_text():
+	if current_item < prices.size():
+		text = text_format.format([prices[current_item], GameData.flip_duration - decrease_amount],\"%_\")
+	else:
+		text = \"Max flip speed upgrades bought\"
+
+func _click():
+	if not visible: return
+	if disabled: return
+	if current_item >= prices.size(): return
+	if current_price > GameData.money: return
+	GameData.flip_duration -= decrease_amount
+	_next_item()
+	amount.text = \"%ss\" % GameData.flip_duration
+"
+
+[sub_resource type="GDScript" id="GDScript_u5opy"]
+script/source = "extends UpgradeButton
+
+var amount: int = 0
+
+func _update_text():
+	if current_item < prices.size():
+		text = text_format.format([prices[current_item], amount + 1],\"%_\")
+	else:
+		text = \"Automatic Coinflipper Maxed Out\"
+
+func _click():
+	if not visible: return
+	if disabled: return
+	if current_item >= prices.size(): return
+	if current_price > GameData.money: return
+	owner.add_automatic()
+	amount+=1
+	_next_item()
+"
+
+[sub_resource type="GDScript" id="GDScript_y36n6"]
+script/source = "extends UpgradeButton
+
+func _update_text():
+	if current_item < prices.size():
+		text = text_format.format([prices[current_item]],\"%_\")
+	else:
+		text = \"You can only buy this once\"
+
+func _click():
+	if not visible: return
+	if disabled: return
+	if current_item >= prices.size(): return
+	if current_price > GameData.money: return
+	if GameData.click_drag_enabled: return
+	GameData.click_drag_enabled = true
+	_next_item()
+"
+
+[sub_resource type="GDScript" id="GDScript_vasa2"]
+script/source = "extends Label
+
+const MONEY_POPUP = preload(\"uid://dtdecg0jbaj20\")
+
+func _ready() -> void:
+	GameData.money_changed.connect(update_money)
+	update_money(GameData.money)
+
+var prev_amount: float = 0.0
+func update_money(amount: float):
+	if amount == int(amount):
+		text = \"%s $\" % int(amount)
+	else:
+		text = \"%s $\" % amount
+	
+	spawn_popup(amount - prev_amount)
+	prev_amount = amount
+
+func spawn_popup(value: float):
+	if value == 0: return
+	var popup: MoneyPopup = MONEY_POPUP.instantiate()
+	add_child(popup)
+	popup.set_value(value)
+"
+
+[node name="Game" type="Node3D"]
+script = ExtResource("1_vasa2")
+
+[node name="Floor" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.70449, -0.0024881363, 9.99975)
+size = Vector3(100, 0.001, 100)
+material = SubResource("StandardMaterial3D_l1rk1")
+
+[node name="Coins" type="Node3D" parent="."]
+
+[node name="BaseCoin" parent="Coins" instance=ExtResource("1_l1rk1")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.7071068, 0, -0.7071068, 0.70710677, 0, 2.5285373, 1.7081282)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_l1rk1")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="MainUI" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MainUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/MainUI/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.0
+
+[node name="MarginContainer2" type="MarginContainer" parent="UI/MainUI/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+size_flags_stretch_ratio = 3.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MainUI/VBoxContainer/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="TotalTossesLabel" type="Label" parent="UI/MainUI/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="MaxStreakLabel" type="Label" parent="UI/MainUI/VBoxContainer/HBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/MainUI/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="UI/MainUI/VBoxContainer/HBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AddCoinButton" type="Button" parent="UI/MainUI/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+text = "blablabla"
+script = SubResource("GDScript_h7iqs")
+text_format = "%0 $: Buy one coin"
+prices = Array[int]([0, 10, 20, 50, 100, 200, 300, 400, 500])
+
+[node name="BaseValueButton" type="Button" parent="UI/MainUI/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+script = SubResource("GDScript_4fuuu")
+visible_limit = 10.0
+text_format = "%0 $: Double Base Value to %1 $"
+prices = Array[int]([20, 100, 200, 5000])
+
+[node name="HeadsChanceButton" type="Button" parent="UI/MainUI/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+script = SubResource("GDScript_dxrkv")
+visible_limit = 1.0
+text_format = "%0 $: Upgrade Heads Chance by %1% to %2%"
+prices = Array[int]([5, 25, 100, 200, 500, 1000])
+
+[node name="FlipDurationButton" type="Button" parent="UI/MainUI/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+script = SubResource("GDScript_dakft")
+visible_limit = 10.0
+text_format = "%0 $: Decrease Flip Duration to %1s"
+prices = Array[int]([15, 50, 100, 500])
+
+[node name="AutomaticFlippingButton" type="Button" parent="UI/MainUI/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+script = SubResource("GDScript_u5opy")
+visible_limit = 100.0
+text_format = "%0 $: Flip one more coin (%1) per second"
+prices = Array[int]([150, 200, 250, 300, 350, 400, 450, 500, 550, 600])
+
+[node name="ClickToDragButton" type="Button" parent="UI/MainUI/VBoxContainer/HBoxContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+script = SubResource("GDScript_y36n6")
+visible_limit = 75.0
+text_format = "%0 $: Click+Drag Upgrade for your cursor"
+prices = Array[int]([100])
+
+[node name="StatsContainer" type="HBoxContainer" parent="UI/MainUI/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CoinAmount" type="VBoxContainer" parent="UI/MainUI/VBoxContainer/StatsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="UI/MainUI/VBoxContainer/StatsContainer/CoinAmount"]
+layout_mode = 2
+text = "Coin Amount"
+horizontal_alignment = 1
+
+[node name="Amount" type="Label" parent="UI/MainUI/VBoxContainer/StatsContainer/CoinAmount"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "0"
+horizontal_alignment = 1
+
+[node name="HeadsChance" type="VBoxContainer" parent="UI/MainUI/VBoxContainer/StatsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="UI/MainUI/VBoxContainer/StatsContainer/HeadsChance"]
+layout_mode = 2
+text = "Chance to get Heads"
+horizontal_alignment = 1
+
+[node name="Amount" type="Label" parent="UI/MainUI/VBoxContainer/StatsContainer/HeadsChance"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "30%"
+horizontal_alignment = 1
+
+[node name="Money" type="VBoxContainer" parent="UI/MainUI/VBoxContainer/StatsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="UI/MainUI/VBoxContainer/StatsContainer/Money"]
+layout_mode = 2
+text = "Money"
+horizontal_alignment = 1
+
+[node name="Amount" type="Label" parent="UI/MainUI/VBoxContainer/StatsContainer/Money"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "100 $"
+horizontal_alignment = 1
+script = SubResource("GDScript_vasa2")
+
+[node name="FlipDuration" type="VBoxContainer" parent="UI/MainUI/VBoxContainer/StatsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="UI/MainUI/VBoxContainer/StatsContainer/FlipDuration"]
+layout_mode = 2
+text = "Flip Duration"
+horizontal_alignment = 1
+
+[node name="Amount" type="Label" parent="UI/MainUI/VBoxContainer/StatsContainer/FlipDuration"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "1.5 s"
+horizontal_alignment = 1
+
+[node name="MoneyPerHeads" type="VBoxContainer" parent="UI/MainUI/VBoxContainer/StatsContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="UI/MainUI/VBoxContainer/StatsContainer/MoneyPerHeads"]
+layout_mode = 2
+text = "Money per Heads"
+horizontal_alignment = 1
+
+[node name="Amount" type="Label" parent="UI/MainUI/VBoxContainer/StatsContainer/MoneyPerHeads"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "0.25 $"
+horizontal_alignment = 1
+
+[node name="Automatic" type="Timer" parent="."]

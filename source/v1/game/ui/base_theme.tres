@@ -1,0 +1,46 @@
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://dneg1tfypapg1"]
+
+[ext_resource type="FontFile" uid="uid://cqlc7ywkw2htb" path="res://game/ui/Kenney Future.ttf" id="1_v1344"]
+[ext_resource type="Texture2D" uid="uid://srww56qa35bj" path="res://game/ui/button_rectangle_flat.png" id="2_r1wr4"]
+[ext_resource type="Texture2D" uid="uid://cpbsgrnd2q7u8" path="res://game/ui/button_rectangle_depth_gradient.png" id="2_wixtu"]
+[ext_resource type="Texture2D" uid="uid://bbv3rrrbekaqx" path="res://game/ui/button_rectangle_depth_flat.png" id="4_78ryp"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_78ryp"]
+texture = ExtResource("2_r1wr4")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ibfds"]
+texture = ExtResource("2_wixtu")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 20.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_agvlg"]
+texture = ExtResource("4_78ryp")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 18.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r1wr4"]
+texture = ExtResource("2_wixtu")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 20.0
+
+[resource]
+Button/colors/font_disabled_color = Color(0.20870978, 0.20871034, 0.20870996, 0.5019608)
+Button/font_sizes/font_size = 16
+Button/fonts/font = ExtResource("1_v1344")
+Button/styles/disabled = SubResource("StyleBoxTexture_78ryp")
+Button/styles/hover = SubResource("StyleBoxTexture_ibfds")
+Button/styles/normal = SubResource("StyleBoxTexture_agvlg")
+Button/styles/pressed = SubResource("StyleBoxTexture_r1wr4")
+Label/colors/font_shadow_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 6
+Label/fonts/font = ExtResource("1_v1344")
