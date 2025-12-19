@@ -12,7 +12,8 @@ func _ready() -> void:
 
 func setup(upgrade: Upgrade, enabled: bool, bought: bool, locked: bool):
 	should_be_enabled = enabled && not locked && not bought
-	text = "%s\n%s\n%s $" % [upgrade.name, upgrade.description, upgrade.cost]
+	text = "%s\n%s $" % [upgrade.name, upgrade.cost]
+	tooltip_text = upgrade.description
 	linked_upgrade = upgrade
 	check_money(GameData.money, 0)
 
