@@ -10,10 +10,10 @@ func enable(coin: Coin):
 	if active_coin == coin:
 		disable()
 		return
-	if visible: return
 	_setup(coin)
-	show()
 	active_coin = coin
+	if visible: return
+	show()
 	animation_player.play("show")
 
 func _setup(coin: Coin):

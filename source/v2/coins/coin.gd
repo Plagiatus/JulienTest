@@ -30,7 +30,7 @@ var sale_value: int = 0
 
 signal start_toss()
 signal end_toss(is_heads)
-signal start_relocation()
+#signal start_relocation()
 signal select_upgrade()
 signal upgrade_applied()
 

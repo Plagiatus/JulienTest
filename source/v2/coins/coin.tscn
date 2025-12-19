@@ -16,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://ce5sne8rjmucv" path="res://coins/materials/iron.svg" id="13_avygk"]
 
 [sub_resource type="Curve" id="Curve_8qiya"]
-_data = [Vector2(0, 0), 0.0, 6.301498, 0, 0, Vector2(0.24832214, 0.5617978), 0.0, 0.0, 0, 0, Vector2(0.7785235, 0.5617978), 0.0, 0.0, 0, 0, Vector2(1, 0), -8.097094, 0.0, 0, 0]
+_data = [Vector2(0, 0), 0.0, 3.7834194, 0, 0, Vector2(0.25, 0.3602094), 0.0, 0.0, 0, 0, Vector2(0.75537634, 0.3602094), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.822034, 0.0, 0, 0]
 point_count = 4
 
 [sub_resource type="Resource" id="Resource_3hre8"]

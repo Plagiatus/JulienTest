@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c4mts5bva7un7"]
+[gd_scene load_steps=15 format=3 uid="uid://c4mts5bva7un7"]
 
 [ext_resource type="PackedScene" uid="uid://cj4lp0vpnu438" path="res://world/default_tile.tscn" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://dy6j35sg0tmhe" path="res://game.gd" id="1_fc0e3"]
@@ -26,6 +26,9 @@ func update(new_value: int, _change: int):
 "
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_fc0e3"]
+viewport_path = NodePath("UI/GameOverlay/BuyCoinButton/CoinViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_eow3j"]
 viewport_path = NodePath("UI/GameOverlay/BuyCoinButton/CoinViewport")
 
 [sub_resource type="Animation" id="Animation_eow3j"]
@@ -95,7 +98,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
+mouse_filter = 2
 
 [node name="MoneyLabel" type="Label" parent="UI/GameOverlay"]
 layout_mode = 0
@@ -122,6 +125,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 metadata/_edit_lock_ = true
 
 [node name="CoinViewport" parent="UI/GameOverlay/BuyCoinButton" instance=ExtResource("5_7jktm")]
@@ -146,6 +150,21 @@ grow_horizontal = 2
 grow_vertical = 0
 text = "free"
 horizontal_alignment = 1
+
+[node name="DraggedCoin" type="TextureRect" parent="UI/GameOverlay"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+texture = SubResource("ViewportTexture_eow3j")
+
+[node name="BuyTileButton" type="Button" parent="UI/GameOverlay"]
+layout_mode = 0
+offset_left = 170.0
+offset_top = 578.0
+offset_right = 239.0
+offset_bottom = 609.0
+text = "Increase Area"
 
 [node name="CoinUpgrade" type="Control" parent="UI"]
 visible = false
@@ -196,3 +215,5 @@ libraries = {
 }
 
 [connection signal="button_down" from="UI/GameOverlay/BuyCoinButton" to="." method="_on_buy_coin_button_button_down"]
+[connection signal="mouse_entered" from="UI/GameOverlay/BuyCoinButton" to="." method="_on_buy_coin_button_mouse_entered"]
+[connection signal="pressed" from="UI/GameOverlay/BuyTileButton" to="." method="_on_buy_tile_button_pressed"]
