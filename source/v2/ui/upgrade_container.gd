@@ -14,7 +14,7 @@ func enable(coin: Coin):
 	active_coin = coin
 	if visible: return
 	show()
-	animation_player.play("show")
+	#animation_player.play("show")
 
 func _setup(coin: Coin):
 	for child in upgrade_container.get_children():
@@ -41,8 +41,8 @@ func _setup(coin: Coin):
 
 func disable():
 	active_coin = null
-	animation_player.play_backwards("show")
-	await animation_player.animation_finished
+	#animation_player.play_backwards("show")
+	#await animation_player.animation_finished
 	hide()
 
 func refresh():
