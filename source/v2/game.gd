@@ -18,6 +18,7 @@ func _ready() -> void:
 		child.queue_free()
 	
 	dragged_coin.hide()
+	await get_tree().create_timer(0.5).timeout
 	increase_area()
 
 func _process(_delta: float) -> void:

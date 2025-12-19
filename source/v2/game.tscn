@@ -159,11 +159,15 @@ mouse_filter = 2
 texture = SubResource("ViewportTexture_eow3j")
 
 [node name="BuyTileButton" type="Button" parent="UI/GameOverlay"]
-layout_mode = 0
-offset_left = 170.0
-offset_top = 578.0
-offset_right = 239.0
-offset_bottom = 609.0
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 164.0
+offset_top = -70.0
+offset_right = 278.0
+offset_bottom = -39.0
+grow_vertical = 0
 text = "Increase Area"
 
 [node name="CoinUpgrade" type="Control" parent="UI"]
