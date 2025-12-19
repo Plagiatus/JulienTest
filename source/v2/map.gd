@@ -39,7 +39,7 @@ func place_coin(pos: Vector2i, coin: Coin):
 		coin.reparent(self)
 	else:
 		add_child(coin)
-	coin.position = map_to_local(pos)
+	#coin.position = map_to_local(pos)
 	coin_grid.erase(coin)
 	coin_grid.set_at_vector(pos, coin)
 

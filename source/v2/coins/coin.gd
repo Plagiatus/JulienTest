@@ -12,6 +12,7 @@ enum STATE {
 	AIR
 }
 
+var upgrade_progress: Array[int] = []
 
 var state: STATE = STATE.REST
 var heads_chance: float = 0.5
@@ -31,12 +32,17 @@ signal start_toss()
 signal end_toss(is_heads)
 signal start_relocation()
 signal select_upgrade()
+signal upgrade_applied()
+
+func _ready() -> void:
+	upgrade_progress.resize(upgrade_paths.size())
+	upgrade_progress.fill(0)
 
 func flip():
 	if state == STATE.AIR: return
 	var prev_result = next_result_is_heads
 	next_result_is_heads = randf() < heads_chance
-	rotation_speed = 2 * PI * randi_range(2, 3) / flip_duration
+	rotation_speed = 2 * PI * randi_range(3, 3) / flip_duration
 	if prev_result != next_result_is_heads:
 		rotation_speed += PI / flip_duration
 	time_since_start = 0.0
@@ -63,6 +69,21 @@ func land():
 	if next_result_is_heads:
 		GameData.money += heads_value
 	end_toss.emit(next_result_is_heads)
+
+func apply_upgrade(upgrade: Upgrade):
+	for i in upgrade_progress.size():
+		var depth = upgrade_progress[i]
+		var available_upgrade: Upgrade = upgrade_paths[i]
+		while depth > 0 and available_upgrade:
+			available_upgrade = available_upgrade.next_upgrade
+			depth -= 1
+		if not available_upgrade:
+			break
+		if available_upgrade == upgrade:
+			upgrade.buy_upgrade(self)
+			upgrade_progress[i] += 1
+			upgrade_applied.emit()
+			break
 
 
 func _on_area_3d_input_event(_camera: Node, event: InputEvent, _event_position: Vector3, _normal: Vector3, _shape_idx: int) -> void:
