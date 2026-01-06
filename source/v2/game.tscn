@@ -130,9 +130,14 @@ texture = SubResource("ViewportTexture_eow3j")
 expand_mode = 1
 
 [node name="MoneyLabel" type="Label" parent="UI/GameOverlay"]
-layout_mode = 0
-offset_right = 40.0
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
 offset_bottom = 23.0
+grow_horizontal = 2
 text = "%s $"
 script = SubResource("GDScript_e2o6t")
 
@@ -165,7 +170,8 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 23.0
 grow_horizontal = 2
-text = "Buy 1 Iron Coin"
+text = "Buy 1 Iron Coin
+(click & drag)"
 horizontal_alignment = 1
 
 [node name="Price" type="Label" parent="UI/GameOverlay/BuyCoinButton"]
@@ -191,6 +197,19 @@ offset_right = 278.0
 offset_bottom = -39.0
 grow_vertical = 0
 text = "Increase Area"
+
+[node name="Label" type="Label" parent="UI/GameOverlay"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "left mouse to flip, right mouse to select, middle mouse to move camera, scroll to zoom"
 
 [node name="CoinUpgrade" type="Control" parent="UI"]
 visible = false

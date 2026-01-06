@@ -9,6 +9,7 @@ const BOUGHT_OVERLAY = preload("uid://dabg8chb7k7x3")
 
 func _ready() -> void:
 	GameData.money_changed.connect(check_money)
+	size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
 func setup(upgrade: Upgrade, enabled: bool, bought: bool, locked: bool):
 	should_be_enabled = enabled && not locked && not bought

@@ -28,6 +28,7 @@ var flip_neighbors: Array[Vector2] = []
 var sale_value: int = 0
 
 @onready var _3d_coin: Node3D = $Positioning/Visuals
+@onready var money_popup: Label3D = $Positioning/MoneyPopup
 
 signal start_toss()
 signal end_toss(is_heads: bool, flip_neighbors: Array[Vector2])
@@ -69,6 +70,7 @@ func land():
 	_3d_coin.rotation_degrees.x = 0 if next_result_is_heads else 180
 	if next_result_is_heads:
 		GameData.money += heads_value
+		show_money_popup()
 	end_toss.emit(next_result_is_heads, flip_neighbors)
 
 func apply_upgrade(upgrade: Upgrade):
@@ -86,6 +88,11 @@ func apply_upgrade(upgrade: Upgrade):
 			upgrade_applied.emit()
 			break
 
+func show_money_popup():
+	money_popup.text = "+ %s $" % heads_value
+	money_popup.show()
+	await get_tree().create_timer(0.5).timeout
+	money_popup.hide()
 
 func _on_area_3d_input_event(_camera: Node, event: InputEvent, _event_position: Vector3, _normal: Vector3, _shape_idx: int) -> void:
 	if not event is InputEventMouseButton: return
