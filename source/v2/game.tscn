@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c4mts5bva7un7"]
+[gd_scene load_steps=16 format=3 uid="uid://c4mts5bva7un7"]
 
 [ext_resource type="PackedScene" uid="uid://cj4lp0vpnu438" path="res://world/default_tile.tscn" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://dy6j35sg0tmhe" path="res://game.gd" id="1_fc0e3"]
@@ -7,6 +7,22 @@
 [ext_resource type="PackedScene" uid="uid://wusm4xl41ovt" path="res://coins/coin_viewport.tscn" id="5_7jktm"]
 [ext_resource type="PackedScene" uid="uid://bgaj0qu0cdgkn" path="res://ui/upgrade_paths.tscn" id="6_ryrav"]
 [ext_resource type="Script" uid="uid://bogn15l5h4gu6" path="res://ui/upgrade_container.gd" id="7_j5wjh"]
+
+[sub_resource type="GDScript" id="GDScript_eow3j"]
+resource_name = "camera"
+script/source = "extends Camera3D
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		var zoom_direction = 0
+		if event.button_index == MouseButton.MOUSE_BUTTON_WHEEL_DOWN:
+			zoom_direction = 1.1
+		if event.button_index == MouseButton.MOUSE_BUTTON_WHEEL_UP:
+			zoom_direction = 0.9
+		if zoom_direction != 0:
+			size = clampf(size * zoom_direction, 3, 10);
+"
 
 [sub_resource type="Environment" id="Environment_e2o6t"]
 background_mode = 1
@@ -78,6 +94,7 @@ transform = Transform3D(0.7071068, -0.3535534, 0.61237246, 0, 0.8660254, 0.50000
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.053019047, 13.849831)
 projection = 1
 size = 3.0
+script = SubResource("GDScript_eow3j")
 
 [node name="Grid" type="Node3D" parent="."]
 
@@ -106,10 +123,11 @@ mouse_filter = 2
 [node name="DraggedCoin" type="TextureRect" parent="UI/GameOverlay"]
 visible = false
 layout_mode = 0
-offset_right = 128.0
-offset_bottom = 128.0
+offset_right = 64.0
+offset_bottom = 64.0
 mouse_filter = 2
 texture = SubResource("ViewportTexture_eow3j")
+expand_mode = 1
 
 [node name="MoneyLabel" type="Label" parent="UI/GameOverlay"]
 layout_mode = 0
