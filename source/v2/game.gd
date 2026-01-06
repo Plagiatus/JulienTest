@@ -16,8 +16,6 @@ var moving_camera: bool = false
 var prev_mouse_pos: Vector2
 @onready var camera_anchor: Node3D = $CameraAnchor
 
-var tile_grid: Dictionary = {}
-
 
 
 func _ready() -> void:
@@ -68,7 +66,7 @@ func instantiate_new_tile(pos: Vector3):
 	tile.position = pos
 	tile.hover_start.connect(tile_hover_start.bind(tile))
 	tile.hover_end.connect(tile_hover_end.bind(tile))
-	tile_grid.set("%s,%s" % [pos.x, pos.y], tile)
+	GameData.add_tile(tile)
 
 func instantiate_new_coin(tile: Tile):
 	var coin = COIN.instantiate() as Coin

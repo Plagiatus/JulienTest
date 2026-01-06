@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://u8d2vs780hgk"]
+[gd_scene load_steps=29 format=3 uid="uid://u8d2vs780hgk"]
 
 [ext_resource type="Script" uid="uid://cghi2cmecxkfw" path="res://coins/coin.gd" id="1_0t63x"]
 [ext_resource type="Script" uid="uid://cd4ymdbj26e4a" path="res://coins/upgrades/upgrade.gd" id="2_8qiya"]
@@ -13,6 +13,7 @@
 [ext_resource type="Material" uid="uid://0cvajtohc48s" path="res://coins/materials/diamond_material.tres" id="10_wso1s"]
 [ext_resource type="Script" uid="uid://brpswu0gxa0j3" path="res://coins/upgrades/value/value_upgrade.gd" id="11_o055f"]
 [ext_resource type="Script" uid="uid://b3yime83hdtpq" path="res://coins/upgrades/heads_chance/heads_chance_upgrade.gd" id="12_g1pwf"]
+[ext_resource type="Script" uid="uid://drblpi05tfx5s" path="res://coins/upgrades/flip_neighbors/flip_neighbors_upgrade.gd" id="13_8vljm"]
 [ext_resource type="Texture2D" uid="uid://ce5sne8rjmucv" path="res://coins/materials/iron.svg" id="13_avygk"]
 
 [sub_resource type="Curve" id="Curve_8qiya"]
@@ -94,13 +95,42 @@ cost = 1
 next_upgrade = SubResource("Resource_wso1s")
 metadata/_custom_type_script = "uid://b3yime83hdtpq"
 
+[sub_resource type="Resource" id="Resource_avygk"]
+script = ExtResource("13_8vljm")
+neighbors = Array[Vector2]([Vector2(1, 1), Vector2(1, 0), Vector2(1, -1), Vector2(0, 1), Vector2(0, -1), Vector2(-1, -1), Vector2(-1, 0), Vector2(-1, 1)])
+coin_height = 0.3
+name = "Mega Heavy Coin"
+description = "Flips all 8 direct neighbors when it lands"
+cost = 3
+metadata/_custom_type_script = "uid://drblpi05tfx5s"
+
+[sub_resource type="Resource" id="Resource_n6smo"]
+script = ExtResource("13_8vljm")
+neighbors = Array[Vector2]([Vector2(1, 0), Vector2(-1, 0), Vector2(0, 1), Vector2(0, -1)])
+coin_height = 0.2
+name = "Super Heavy Coin"
+description = "Flip also 2 vertical neighbors when it lands"
+cost = 2
+next_upgrade = SubResource("Resource_avygk")
+metadata/_custom_type_script = "uid://drblpi05tfx5s"
+
+[sub_resource type="Resource" id="Resource_gh3jh"]
+script = ExtResource("13_8vljm")
+neighbors = Array[Vector2]([Vector2(1, 0), Vector2(-1, 0)])
+coin_height = 0.15
+name = "Heavy Coin"
+description = "Flip 2 horizontal neighbors when it lands"
+cost = 1
+next_upgrade = SubResource("Resource_n6smo")
+metadata/_custom_type_script = "uid://drblpi05tfx5s"
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_0t63x"]
 height = 0.1
 
 [node name="3DCoin" type="Node3D"]
 script = ExtResource("1_0t63x")
 flight_curve = SubResource("Curve_8qiya")
-upgrade_paths = Array[ExtResource("2_8qiya")]([SubResource("Resource_muxtv"), SubResource("Resource_o055f")])
+upgrade_paths = Array[ExtResource("2_8qiya")]([SubResource("Resource_muxtv"), SubResource("Resource_o055f"), SubResource("Resource_gh3jh")])
 
 [node name="Positioning" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)

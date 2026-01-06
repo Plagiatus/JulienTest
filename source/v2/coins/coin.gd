@@ -4,6 +4,7 @@ class_name Coin
 @export var flight_curve: Curve
 
 @export var upgrade_paths: Array[Upgrade]
+@onready var positioning: Node3D = $Positioning
 @onready var coin_cylinder: CSGCylinder3D = $Positioning/Visuals/coin_cylinder
 @onready var coin_icon: Sprite3D = $Positioning/Visuals/coin_cylinder/coin_icon
 
@@ -22,14 +23,14 @@ var streak: int = 0
 var flip_duration: float = 1
 var rotation_speed: float = PI
 var time_since_start: float = 0.0
+var flip_neighbors: Array[Vector2] = []
 
 var sale_value: int = 0
-
 
 @onready var _3d_coin: Node3D = $Positioning/Visuals
 
 signal start_toss()
-signal end_toss(is_heads)
+signal end_toss(is_heads: bool, flip_neighbors: Array[Vector2])
 #signal start_relocation()
 signal select_upgrade()
 signal upgrade_applied()
@@ -68,7 +69,7 @@ func land():
 	_3d_coin.rotation_degrees.x = 0 if next_result_is_heads else 180
 	if next_result_is_heads:
 		GameData.money += heads_value
-	end_toss.emit(next_result_is_heads)
+	end_toss.emit(next_result_is_heads, flip_neighbors)
 
 func apply_upgrade(upgrade: Upgrade):
 	for i in upgrade_progress.size():
