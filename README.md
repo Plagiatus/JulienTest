@@ -18,3 +18,5 @@ New concept with a focus on individual coins.
 
 - [v2.0](./2.0) - 20.12.25  
 Very rough game idea, not much to do yet.
+- [v2.1](./2.1) - 06.01.26  
+Little more fleshed out, absolutely no balance yet.
