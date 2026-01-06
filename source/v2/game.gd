@@ -12,6 +12,10 @@ var dragging_coin: bool = false
 var hovered_tile: Tile
 var current_tile_area_size: int = 0
 
+var moving_camera: bool = false
+var prev_mouse_pos: Vector2
+@onready var camera_anchor: Node3D = $CameraAnchor
+
 func _ready() -> void:
 	for child in grid.get_children():
 		grid.remove_child(child)
@@ -31,6 +35,21 @@ func _process(_delta: float) -> void:
 				instantiate_new_coin(hovered_tile)
 		else:
 			dragged_coin.position = get_viewport().get_mouse_position() - dragged_coin.size / 2
+	if moving_camera:
+		if not Input.is_mouse_button_pressed(MouseButton.MOUSE_BUTTON_MIDDLE):
+			moving_camera = false
+		else:
+			var viewport = get_viewport()
+			var new_mouse_pos = viewport.get_mouse_position()
+			var camera = viewport.get_camera_3d()
+			var old_pos = Utils.get_mouse_world_plane_position(camera, prev_mouse_pos)
+			var new_pos = Utils.get_mouse_world_plane_position(camera, new_mouse_pos)
+			camera_anchor.position += old_pos - new_pos
+			prev_mouse_pos = new_mouse_pos
+	elif not moving_camera:
+		if Input.is_mouse_button_pressed(MouseButton.MOUSE_BUTTON_MIDDLE):
+			moving_camera = true
+			prev_mouse_pos = get_viewport().get_mouse_position()
 
 func increase_area():
 	current_tile_area_size += 1
