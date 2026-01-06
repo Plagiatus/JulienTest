@@ -3,6 +3,7 @@ extends Control
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var upgrade_container: VBoxContainer = $PanelContainer/MarginContainer/UpgradeContainer
 const UPGRADE_PATHS = preload("uid://bgaj0qu0cdgkn")
+const OUTLINE_MATERIAL = preload("uid://dbqqhhmq55cw4")
 
 var active_coin: Coin
 
@@ -37,10 +38,12 @@ func _setup(coin: Coin):
 		coin.upgrade_applied.connect(refresh)
 	#var next_upgrade = coin.upgrade_path
 	#while next_upgrade:
-	pass
+	coin.set_next_pass(OUTLINE_MATERIAL)
 
 func disable():
-	active_coin = null
+	if active_coin:
+		active_coin.set_next_pass(null)
+		active_coin = null
 	#animation_player.play_backwards("show")
 	#await animation_player.animation_finished
 	hide()

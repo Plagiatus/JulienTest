@@ -1,7 +1,7 @@
 extends Node3D
 @onready var ui: CanvasLayer = $UI
-
 @onready var grid: Node3D = $Grid
+
 const DEFAULT_TILE = preload("uid://cj4lp0vpnu438")
 const COIN = preload("uid://u8d2vs780hgk")
 const COIN_VIEWPORT = preload("uid://wusm4xl41ovt")
@@ -15,6 +15,10 @@ var current_tile_area_size: int = 0
 var moving_camera: bool = false
 var prev_mouse_pos: Vector2
 @onready var camera_anchor: Node3D = $CameraAnchor
+
+var tile_grid: Dictionary = {}
+
+
 
 func _ready() -> void:
 	for child in grid.get_children():
@@ -64,13 +68,13 @@ func instantiate_new_tile(pos: Vector3):
 	tile.position = pos
 	tile.hover_start.connect(tile_hover_start.bind(tile))
 	tile.hover_end.connect(tile_hover_end.bind(tile))
+	tile_grid.set("%s,%s" % [pos.x, pos.y], tile)
 
 func instantiate_new_coin(tile: Tile):
 	var coin = COIN.instantiate() as Coin
-	tile.add_child(coin)
+	tile.coin = coin
 	# coin.position = tile.position
 	coin.select_upgrade.connect(show_upgrade_view.bind(coin))
-	tile.coin = coin
 	# todo increase price
 	# todo charge money
 
@@ -92,3 +96,8 @@ func tile_hover_end(tile: Tile):
 
 func _on_buy_tile_button_pressed() -> void:
 	increase_area()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.is_pressed():
+		if event.button_index == MouseButton.MOUSE_BUTTON_RIGHT:
+			ui.hide_upgrades()

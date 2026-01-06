@@ -95,3 +95,6 @@ func _on_area_3d_input_event(_camera: Node, event: InputEvent, _event_position: 
 				flip()
 		MouseButton.MOUSE_BUTTON_RIGHT:
 			select_upgrade.emit()
+
+func set_next_pass(mat: Material):
+	coin_cylinder.material_overlay = mat

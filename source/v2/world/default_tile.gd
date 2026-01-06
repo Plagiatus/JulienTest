@@ -1,12 +1,24 @@
 extends Node3D
 class_name Tile
 
-var coin: Coin
+var coin: Coin:
+	set(value):
+		_remove_listeners()
+		coin = value
+		_add_listeners()
+		add_child(coin)
 
 signal hover_start()
 signal hover_end()
 
 @onready var visuals: CSGBox3D = $Visuals
+
+func _add_listeners():
+	pass
+
+func _remove_listeners():
+	if not coin: return
+	pass
 
 func _on_area_3d_mouse_entered() -> void:
 	visuals.material.albedo_color = Color(0.8, 0.8, 0.8)
