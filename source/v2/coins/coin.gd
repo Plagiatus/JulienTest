@@ -79,7 +79,7 @@ func apply_upgrade(upgrade: Upgrade):
 			available_upgrade = available_upgrade.next_upgrade
 			depth -= 1
 		if not available_upgrade:
-			break
+			continue
 		if available_upgrade == upgrade:
 			upgrade.buy_upgrade(self)
 			upgrade_progress[i] += 1

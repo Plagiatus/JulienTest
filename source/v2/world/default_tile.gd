@@ -26,11 +26,15 @@ func _remove_listeners():
 
 func handle_land(_is_heads: bool, flip_neighbors: Array[Vector2]):
 	var pos_2dc = pos_2d;
+	# get_tree().get_first_node_in_group("camera").shake(flip_neighbors.size() * 0.02, 20)
+	shake(flip_neighbors.size() * 0.04, 15)
 	for neighbor in flip_neighbors:
 		var pos = pos_2dc + neighbor
 		var neighbor_tile = GameData.get_tile(pos)
-		if neighbor_tile and neighbor_tile.coin:
-			neighbor_tile.coin.flip()
+		if neighbor_tile:
+			neighbor_tile.shake(0.04, 15)
+			if neighbor_tile.coin:
+				neighbor_tile.coin.flip()
 
 func _on_area_3d_mouse_entered() -> void:
 	visuals.material.albedo_color = Color(0.8, 0.8, 0.8)
@@ -39,3 +43,18 @@ func _on_area_3d_mouse_entered() -> void:
 func _on_area_3d_mouse_exited() -> void:
 	visuals.material.albedo_color = Color(1, 1, 1)
 	hover_end.emit()
+
+var _current_shake_strength: float = 0.0
+var _current_shake_fade: float = 0.0
+var original_pos: Vector3 = position
+
+func shake(strength: float, dampening: float):
+	if _current_shake_strength < strength:
+		_current_shake_strength = strength
+		_current_shake_fade = dampening
+
+func _process(delta: float) -> void:
+	if _current_shake_strength > 0:
+		_current_shake_strength = lerpf(_current_shake_strength, 0.0, _current_shake_fade * delta)
+		position.x = original_pos.x + randf_range(-_current_shake_strength, _current_shake_strength)
+		position.z = original_pos.z + randf_range(-_current_shake_strength, _current_shake_strength)

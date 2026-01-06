@@ -62,9 +62,10 @@ metadata/_custom_type_script = "uid://brpswu0gxa0j3"
 
 [sub_resource type="Resource" id="Resource_eq56b"]
 script = ExtResource("12_g1pwf")
-new_heads_chance = 0.9
-name = "Weighted Coin"
-description = "Makes it more likely for the coin to land on heads"
+new_heads_chance = 1.0
+coin_sides = 6
+name = "Double Heads Coin"
+description = "Always get heads!"
 cost = 4
 metadata/_custom_type_script = "uid://b3yime83hdtpq"
 
@@ -80,6 +81,7 @@ metadata/_custom_type_script = "uid://b3yime83hdtpq"
 [sub_resource type="Resource" id="Resource_wso1s"]
 script = ExtResource("12_g1pwf")
 new_heads_chance = 0.7
+coin_sides = 10
 name = "Weighted Coin"
 description = "Makes it more likely for the coin to land on heads"
 cost = 2
@@ -89,6 +91,7 @@ metadata/_custom_type_script = "uid://b3yime83hdtpq"
 [sub_resource type="Resource" id="Resource_o055f"]
 script = ExtResource("12_g1pwf")
 new_heads_chance = 0.6
+coin_sides = 12
 name = "Weighted Coin"
 description = "Makes it more likely for the coin to land on heads"
 cost = 1
@@ -140,6 +143,7 @@ transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
 
 [node name="coin_cylinder" type="CSGCylinder3D" parent="Positioning/Visuals"]
 height = 0.1
+sides = 20
 material = ExtResource("3_sg6lq")
 
 [node name="coin_icon" type="Sprite3D" parent="Positioning/Visuals/coin_cylinder"]

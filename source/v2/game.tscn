@@ -74,7 +74,7 @@ script = ExtResource("1_fc0e3")
 [node name="CameraAnchor" type="Node3D" parent="."]
 transform = Transform3D(0.7071068, -0.3535534, 0.61237246, 0, 0.8660254, 0.50000006, -0.7071068, -0.3535534, 0.61237246, 0, 0, 0)
 
-[node name="Camera3D" type="Camera3D" parent="CameraAnchor"]
+[node name="Camera3D" type="Camera3D" parent="CameraAnchor" groups=["camera"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.053019047, 13.849831)
 projection = 1
 size = 3.0

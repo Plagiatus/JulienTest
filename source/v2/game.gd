@@ -64,6 +64,7 @@ func instantiate_new_tile(pos: Vector3):
 	var tile = DEFAULT_TILE.instantiate() as Tile
 	grid.add_child(tile)
 	tile.position = pos
+	tile.original_pos = pos
 	tile.hover_start.connect(tile_hover_start.bind(tile))
 	tile.hover_end.connect(tile_hover_end.bind(tile))
 	GameData.add_tile(tile)
