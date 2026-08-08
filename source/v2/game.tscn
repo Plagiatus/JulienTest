@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://c4mts5bva7un7"]
+[gd_scene format=3 uid="uid://c4mts5bva7un7"]
 
 [ext_resource type="PackedScene" uid="uid://cj4lp0vpnu438" path="res://world/default_tile.tscn" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://dy6j35sg0tmhe" path="res://game.gd" id="1_fc0e3"]
@@ -84,34 +84,34 @@ _data = {
 &"show": SubResource("Animation_ryrav")
 }
 
-[node name="game" type="Node3D"]
+[node name="game" type="Node3D" unique_id=1451695103]
 script = ExtResource("1_fc0e3")
 
-[node name="CameraAnchor" type="Node3D" parent="."]
+[node name="CameraAnchor" type="Node3D" parent="." unique_id=642342081]
 transform = Transform3D(0.7071068, -0.3535534, 0.61237246, 0, 0.8660254, 0.50000006, -0.7071068, -0.3535534, 0.61237246, 0, 0, 0)
 
-[node name="Camera3D" type="Camera3D" parent="CameraAnchor" groups=["camera"]]
+[node name="Camera3D" type="Camera3D" parent="CameraAnchor" unique_id=1204705024 groups=["camera"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.053019047, 13.849831)
 projection = 1
 size = 3.0
 script = SubResource("GDScript_eow3j")
 
-[node name="Grid" type="Node3D" parent="."]
+[node name="Grid" type="Node3D" parent="." unique_id=560206953]
 
-[node name="DefaultTile" parent="Grid" instance=ExtResource("1_80nbo")]
+[node name="DefaultTile" parent="Grid" unique_id=808731167 instance=ExtResource("1_80nbo")]
 
-[node name="3DCoin" parent="Grid/DefaultTile" instance=ExtResource("2_e2o6t")]
+[node name="3DCoin" parent="Grid/DefaultTile" unique_id=1298026245 instance=ExtResource("2_e2o6t")]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1587537664]
 environment = SubResource("Environment_e2o6t")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=330532004]
 transform = Transform3D(0.85153484, -0.506433, 0.13569832, 0, 0.25881907, 0.9659258, -0.524298, -0.8225195, 0.22039346, 0, 0, 0)
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=1191939440]
 script = ExtResource("3_feb5d")
 
-[node name="GameOverlay" type="Control" parent="UI"]
+[node name="GameOverlay" type="Control" parent="UI" unique_id=1610523921]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -120,7 +120,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="DraggedCoin" type="TextureRect" parent="UI/GameOverlay"]
+[node name="DraggedCoin" type="TextureRect" parent="UI/GameOverlay" unique_id=563911666]
 visible = false
 layout_mode = 0
 offset_right = 64.0
@@ -129,7 +129,7 @@ mouse_filter = 2
 texture = SubResource("ViewportTexture_eow3j")
 expand_mode = 1
 
-[node name="MoneyLabel" type="Label" parent="UI/GameOverlay"]
+[node name="MoneyLabel" type="Label" parent="UI/GameOverlay" unique_id=1217008245]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -141,7 +141,7 @@ grow_horizontal = 2
 text = "%s $"
 script = SubResource("GDScript_e2o6t")
 
-[node name="BuyCoinButton" type="TextureButton" parent="UI/GameOverlay"]
+[node name="BuyCoinButton" type="TextureButton" parent="UI/GameOverlay" unique_id=1038219606]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -151,7 +151,7 @@ offset_right = 128.0
 grow_vertical = 0
 texture_normal = SubResource("ViewportTexture_fc0e3")
 
-[node name="Panel" type="Panel" parent="UI/GameOverlay/BuyCoinButton"]
+[node name="Panel" type="Panel" parent="UI/GameOverlay/BuyCoinButton" unique_id=1124768014]
 z_index = -1
 layout_mode = 1
 anchors_preset = 15
@@ -162,9 +162,9 @@ grow_vertical = 2
 mouse_filter = 2
 metadata/_edit_lock_ = true
 
-[node name="CoinViewport" parent="UI/GameOverlay/BuyCoinButton" instance=ExtResource("5_7jktm")]
+[node name="CoinViewport" parent="UI/GameOverlay/BuyCoinButton" unique_id=5493895 instance=ExtResource("5_7jktm")]
 
-[node name="Label" type="Label" parent="UI/GameOverlay/BuyCoinButton"]
+[node name="Label" type="Label" parent="UI/GameOverlay/BuyCoinButton" unique_id=1060582814]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -174,7 +174,7 @@ text = "Buy 1 Iron Coin
 (click & drag)"
 horizontal_alignment = 1
 
-[node name="Price" type="Label" parent="UI/GameOverlay/BuyCoinButton"]
+[node name="Price" type="Label" parent="UI/GameOverlay/BuyCoinButton" unique_id=1513521267]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -186,7 +186,7 @@ grow_vertical = 0
 text = "free"
 horizontal_alignment = 1
 
-[node name="BuyTileButton" type="Button" parent="UI/GameOverlay"]
+[node name="BuyTileButton" type="Button" parent="UI/GameOverlay" unique_id=2063234610]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -198,7 +198,7 @@ offset_bottom = -39.0
 grow_vertical = 0
 text = "Increase Area"
 
-[node name="Label" type="Label" parent="UI/GameOverlay"]
+[node name="Label" type="Label" parent="UI/GameOverlay" unique_id=51222142]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -211,7 +211,7 @@ grow_horizontal = 0
 grow_vertical = 0
 text = "left mouse to flip, right mouse to select, middle mouse to move camera, scroll to zoom"
 
-[node name="CoinUpgrade" type="Control" parent="UI"]
+[node name="CoinUpgrade" type="Control" parent="UI" unique_id=835471553]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -224,7 +224,7 @@ size_flags_vertical = 3
 mouse_filter = 1
 script = ExtResource("7_j5wjh")
 
-[node name="PanelContainer" type="PanelContainer" parent="UI/CoinUpgrade"]
+[node name="PanelContainer" type="PanelContainer" parent="UI/CoinUpgrade" unique_id=1304090670]
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
@@ -235,30 +235,28 @@ offset_right = 0.0007324219
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/CoinUpgrade/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="UI/CoinUpgrade/PanelContainer" unique_id=708779651]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="UpgradeContainer" type="VBoxContainer" parent="UI/CoinUpgrade/PanelContainer/MarginContainer"]
+[node name="UpgradeContainer" type="VBoxContainer" parent="UI/CoinUpgrade/PanelContainer/MarginContainer" unique_id=1031747718]
 layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="UpgradePath" parent="UI/CoinUpgrade/PanelContainer/MarginContainer/UpgradeContainer" instance=ExtResource("6_ryrav")]
+[node name="UpgradePath" parent="UI/CoinUpgrade/PanelContainer/MarginContainer/UpgradeContainer" unique_id=1224285641 instance=ExtResource("6_ryrav")]
 layout_mode = 2
 
-[node name="UpgradePath2" parent="UI/CoinUpgrade/PanelContainer/MarginContainer/UpgradeContainer" instance=ExtResource("6_ryrav")]
+[node name="UpgradePath2" parent="UI/CoinUpgrade/PanelContainer/MarginContainer/UpgradeContainer" unique_id=1125156145 instance=ExtResource("6_ryrav")]
 layout_mode = 2
 
-[node name="UpgradePath3" parent="UI/CoinUpgrade/PanelContainer/MarginContainer/UpgradeContainer" instance=ExtResource("6_ryrav")]
+[node name="UpgradePath3" parent="UI/CoinUpgrade/PanelContainer/MarginContainer/UpgradeContainer" unique_id=539178771 instance=ExtResource("6_ryrav")]
 layout_mode = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/CoinUpgrade"]
-libraries = {
-&"": SubResource("AnimationLibrary_j5wjh")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/CoinUpgrade" unique_id=415374629]
+libraries/ = SubResource("AnimationLibrary_j5wjh")
 
 [connection signal="button_down" from="UI/GameOverlay/BuyCoinButton" to="." method="_on_buy_coin_button_button_down"]
 [connection signal="mouse_entered" from="UI/GameOverlay/BuyCoinButton" to="." method="_on_buy_coin_button_mouse_entered"]

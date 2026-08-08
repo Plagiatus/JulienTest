@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cj4lp0vpnu438"]
+[gd_scene format=3 uid="uid://cj4lp0vpnu438"]
 
 [ext_resource type="Script" uid="uid://dc22cxaqqpcob" path="res://world/default_tile.gd" id="1_bvwpx"]
 
@@ -70,26 +70,24 @@ states/spawn/node = SubResource("AnimationNodeAnimation_bvwpx")
 states/spawn/position = Vector2(355, 113)
 transitions = ["Start", "spawn", SubResource("AnimationNodeStateMachineTransition_f472d"), "spawn", "RESET", SubResource("AnimationNodeStateMachineTransition_ol8ri"), "RESET", "End", SubResource("AnimationNodeStateMachineTransition_bvwpx")]
 
-[node name="DefaultTile" type="Node3D"]
+[node name="DefaultTile" type="Node3D" unique_id=2043114634]
 script = ExtResource("1_bvwpx")
 
-[node name="Visuals" type="CSGBox3D" parent="."]
+[node name="Visuals" type="CSGBox3D" parent="." unique_id=455312438]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 size = Vector3(0.98, 0.1, 0.98)
 material = SubResource("StandardMaterial3D_mwb40")
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="Area3D" type="Area3D" parent="." unique_id=508391390]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=3772156]
 shape = SubResource("BoxShape3D_ol8ri")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_f472d")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2012688903]
+libraries/ = SubResource("AnimationLibrary_f472d")
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=430826319]
 tree_root = SubResource("AnimationNodeStateMachine_rjyc0")
 anim_player = NodePath("../AnimationPlayer")
 

@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dbqqhhmq55cw4"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dbqqhhmq55cw4"]
 
 [ext_resource type="Shader" uid="uid://ddqi4xhsrh75g" path="res://coins/materials/outline.gdshader" id="1_u0wbk"]
 

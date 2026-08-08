@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://c5q875odje0fp"]
+[gd_scene format=3 uid="uid://c5q875odje0fp"]
 
 [ext_resource type="TileSet" uid="uid://bj3hg1ulek244" path="res://assets/tileset.tres" id="1_iddsw"]
 [ext_resource type="Script" uid="uid://cq37ra4ghvw5v" path="res://map.gd" id="2_64hpc"]
@@ -17,19 +17,19 @@ func update(new_value: int, _change: int):
 	text = format_text % roundi(new_value)
 "
 
-[node name="game" type="Node2D"]
+[node name="game" type="Node2D" unique_id=1994221345]
 
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=2139741108]
 tile_set = ExtResource("1_iddsw")
 collision_enabled = false
 navigation_enabled = false
 script = ExtResource("2_64hpc")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1777532304]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1540028890]
 
-[node name="GameOverlay" type="Control" parent="CanvasLayer"]
+[node name="GameOverlay" type="Control" parent="CanvasLayer" unique_id=1790385766]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,14 +38,14 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="MoneyLabel" type="Label" parent="CanvasLayer/GameOverlay"]
+[node name="MoneyLabel" type="Label" parent="CanvasLayer/GameOverlay" unique_id=715892540]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "%s $"
 script = SubResource("GDScript_e2o6t")
 
-[node name="CoinUpgrade" type="Control" parent="CanvasLayer"]
+[node name="CoinUpgrade" type="Control" parent="CanvasLayer" unique_id=1254614357]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -54,7 +54,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/CoinUpgrade"]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/CoinUpgrade" unique_id=2092106086]
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0

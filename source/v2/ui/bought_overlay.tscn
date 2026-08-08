@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dabg8chb7k7x3"]
+[gd_scene format=3 uid="uid://dabg8chb7k7x3"]
 
 [ext_resource type="Texture2D" uid="uid://3ufiit8gergd" path="res://assets/lock.svg" id="1_ojiph"]
 
-[node name="BoughtOverlay" type="PanelContainer"]
+[node name="BoughtOverlay" type="PanelContainer" unique_id=622819762]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -11,18 +11,18 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1428636532]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=325351137]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1600149532]
 layout_mode = 2
 text = "Bought"
 horizontal_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer" unique_id=97084074]
 visible = false
 layout_mode = 2
 texture = ExtResource("1_ojiph")
