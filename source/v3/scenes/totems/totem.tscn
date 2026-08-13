@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://bhlrkhquqr2hx"]
+
+[ext_resource type="Script" uid="uid://cldsdfnm75omg" path="res://scripts/totems/totem.gd" id="1_8eb13"]
+[ext_resource type="Texture2D" uid="uid://bc0bar8b2utmf" path="res://assets/totems/totem.png" id="1_e2qub"]
+[ext_resource type="Script" uid="uid://b3hxo52stcofc" path="res://scripts/components/click_handler_component.gd" id="2_8eb13"]
+[ext_resource type="Script" uid="uid://bwcb2uppn6x2g" path="res://scripts/components/move_component.gd" id="3_evpn7"]
+[ext_resource type="Script" uid="uid://11wrtxlnq8hn" path="res://scripts/components/effects/value_multiplied_effect_component.gd" id="5_evpn7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_igf3p"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n00w2"]
+radius = 40.0
+
+[node name="Totem" type="RigidBody2D" unique_id=1330368982 node_paths=PackedStringArray("area_of_effect")]
+collision_layer = 2
+collision_mask = 0
+lock_rotation = true
+linear_damp = 10.0
+script = ExtResource("1_8eb13")
+area_of_effect = NodePath("EffectComponent/AreaOfEffect")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1898635089]
+shape = SubResource("CircleShape2D_igf3p")
+
+[node name="Visuals" type="Sprite2D" parent="." unique_id=875336131]
+position = Vector2(0, -8)
+texture = ExtResource("1_e2qub")
+
+[node name="ClickHandlerComponent" type="Node2D" parent="." unique_id=81853460 node_paths=PackedStringArray("clickable_shape")]
+script = ExtResource("2_8eb13")
+clickable_shape = NodePath("..")
+grab_distance = 3
+metadata/_custom_type_script = "uid://b3hxo52stcofc"
+
+[node name="MoveComponent" type="Node" parent="." unique_id=953326751 node_paths=PackedStringArray("click_handler")]
+script = ExtResource("3_evpn7")
+click_handler = NodePath("../ClickHandlerComponent")
+metadata/_custom_type_script = "uid://bwcb2uppn6x2g"
+
+[node name="EffectComponent" type="Node2D" parent="." unique_id=2080598012 node_paths=PackedStringArray("area_of_effect")]
+script = ExtResource("5_evpn7")
+area_of_effect = NodePath("AreaOfEffect")
+
+[node name="AreaOfEffect" type="Area2D" parent="EffectComponent" unique_id=861559555]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EffectComponent/AreaOfEffect" unique_id=1018870761]
+shape = SubResource("CircleShape2D_n00w2")

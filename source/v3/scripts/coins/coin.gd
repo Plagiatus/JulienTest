@@ -1,4 +1,4 @@
-class_name Coin extends Node
+class_name Coin extends RigidBody2D
 
 signal throw(toss: TossResource)
 signal land(result: TossResultResource)

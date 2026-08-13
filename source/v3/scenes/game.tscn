@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://k2vdb8uwbqoh"]
 
 [ext_resource type="Script" uid="uid://dqrtdydo1703m" path="res://scripts/game.gd" id="1_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://bhlrkhquqr2hx" path="res://scenes/totems/totem.tscn" id="3_lbhrr"]
 [ext_resource type="Script" uid="uid://dxb1dl5ke3iu" path="res://scripts/ui/money_label.gd" id="3_lnu2h"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_4bdg2"]
@@ -56,5 +57,8 @@ offset_right = 20.0
 offset_bottom = 23.0
 grow_horizontal = 2
 script = ExtResource("3_lnu2h")
+
+[node name="Totem" parent="." unique_id=1330368982 instance=ExtResource("3_lbhrr")]
+position = Vector2(383, 153)
 
 [connection signal="money_changed" from="." to="CanvasLayer/Label" method="set_value"]
