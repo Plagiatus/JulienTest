@@ -2,11 +2,16 @@
 
 [ext_resource type="PackedScene" uid="uid://dfrs0wikm6o54" path="res://scenes/coins/coin.tscn" id="1_uwrxv"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_igf3p"]
-size = Vector2(720, 60)
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_4bdg2"]
+normal = Vector2(0, 1)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_uwrxv"]
-size = Vector2(50, 360)
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_v5bn2"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_rfujh"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6vpvt"]
+normal = Vector2(-1, 0)
 
 [node name="Game" type="Node2D" unique_id=1961153905]
 
@@ -25,22 +30,22 @@ position = Vector2(258, 227)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Border/Top" unique_id=1688314869]
 position = Vector2(324, 0)
-shape = SubResource("RectangleShape2D_igf3p")
+shape = SubResource("WorldBoundaryShape2D_4bdg2")
 
 [node name="Bottom" type="StaticBody2D" parent="Border" unique_id=1312759263]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Border/Bottom" unique_id=1690027118]
 position = Vector2(312, 360)
-shape = SubResource("RectangleShape2D_igf3p")
+shape = SubResource("WorldBoundaryShape2D_v5bn2")
 
 [node name="Left" type="StaticBody2D" parent="Border" unique_id=1919164286]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Border/Left" unique_id=866101965]
 position = Vector2(0, 179)
-shape = SubResource("RectangleShape2D_uwrxv")
+shape = SubResource("WorldBoundaryShape2D_rfujh")
 
 [node name="Right" type="StaticBody2D" parent="Border" unique_id=2054709139]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Border/Right" unique_id=1596338786]
 position = Vector2(640, 179)
-shape = SubResource("RectangleShape2D_uwrxv")
+shape = SubResource("WorldBoundaryShape2D_6vpvt")

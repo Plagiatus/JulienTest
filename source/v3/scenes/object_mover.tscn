@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://bv5ypgokjbu4x"]
+
+[ext_resource type="Script" uid="uid://diwb3cbxjcb2l" path="res://scripts/object_mover.gd" id="1_p123v"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_igf3p"]
+
+[node name="ObjectMover" type="Node2D" unique_id=694308492]
+script = ExtResource("1_p123v")
+
+[node name="Pin" type="PinJoint2D" parent="." unique_id=1897007350]
+node_a = NodePath("../Body")
+
+[node name="Body" type="StaticBody2D" parent="." unique_id=1201970330]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body" unique_id=589503546]
+shape = SubResource("CircleShape2D_igf3p")
