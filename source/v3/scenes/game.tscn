@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://k2vdb8uwbqoh"]
+
+[ext_resource type="PackedScene" uid="uid://dfrs0wikm6o54" path="res://scenes/coins/coin.tscn" id="1_uwrxv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_igf3p"]
+size = Vector2(720, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uwrxv"]
+size = Vector2(50, 360)
+
+[node name="Game" type="Node2D" unique_id=1961153905]
+
+[node name="Coin" parent="." unique_id=1058702918 instance=ExtResource("1_uwrxv")]
+position = Vector2(267, 125)
+
+[node name="Coin2" parent="." unique_id=80072348 instance=ExtResource("1_uwrxv")]
+position = Vector2(267, 176)
+
+[node name="Coin3" parent="." unique_id=849725160 instance=ExtResource("1_uwrxv")]
+position = Vector2(258, 227)
+
+[node name="Border" type="Node2D" parent="." unique_id=723111346]
+
+[node name="Top" type="StaticBody2D" parent="Border" unique_id=188803740]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Border/Top" unique_id=1688314869]
+position = Vector2(324, 0)
+shape = SubResource("RectangleShape2D_igf3p")
+
+[node name="Bottom" type="StaticBody2D" parent="Border" unique_id=1312759263]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Border/Bottom" unique_id=1690027118]
+position = Vector2(312, 360)
+shape = SubResource("RectangleShape2D_igf3p")
+
+[node name="Left" type="StaticBody2D" parent="Border" unique_id=1919164286]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Border/Left" unique_id=866101965]
+position = Vector2(0, 179)
+shape = SubResource("RectangleShape2D_uwrxv")
+
+[node name="Right" type="StaticBody2D" parent="Border" unique_id=2054709139]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Border/Right" unique_id=1596338786]
+position = Vector2(640, 179)
+shape = SubResource("RectangleShape2D_uwrxv")

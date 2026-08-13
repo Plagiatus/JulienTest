@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://dfrs0wikm6o54"]
+
+[ext_resource type="Texture2D" uid="uid://dbxngexl8mf8i" path="res://assets/coins/coin_basic.png" id="1_nyhrq"]
+[ext_resource type="Script" uid="uid://b3hxo52stcofc" path="res://scripts/components/click_handler_component.gd" id="2_nk337"]
+[ext_resource type="Script" uid="uid://bwcb2uppn6x2g" path="res://scripts/components/move_component.gd" id="3_nk337"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_igf3p"]
+radius = 8.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0t63x"]
+atlas = ExtResource("1_nyhrq")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v7riw"]
+atlas = ExtResource("1_nyhrq")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pdq0q"]
+atlas = ExtResource("1_nyhrq")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w14il"]
+atlas = ExtResource("1_nyhrq")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h4etq"]
+atlas = ExtResource("1_nyhrq")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_igf3p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0t63x")
+}],
+"loop": 0,
+"name": &"head",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v7riw")
+}],
+"loop": 0,
+"name": &"tails",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pdq0q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w14il")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h4etq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w14il")
+}],
+"loop": 1,
+"name": &"throw",
+"speed": 10.0
+}]
+
+[node name="Coin" type="RigidBody2D" unique_id=230706520]
+lock_rotation = true
+linear_damp = 5.0
+
+[node name="CoinCollisionShape2" type="CollisionShape2D" parent="." unique_id=2085027984]
+shape = SubResource("CircleShape2D_igf3p")
+
+[node name="Shadow" type="Sprite2D" parent="." unique_id=321885084]
+texture = ExtResource("1_nyhrq")
+vframes = 4
+frame = 3
+
+[node name="Visuals" type="AnimatedSprite2D" parent="." unique_id=1914245598]
+sprite_frames = SubResource("SpriteFrames_igf3p")
+animation = &"head"
+
+[node name="ClickHandlerComponent" type="Node2D" parent="." unique_id=2085990072 node_paths=PackedStringArray("clickable_shape")]
+script = ExtResource("2_nk337")
+clickable_shape = NodePath("..")
+
+[node name="MoveComponent" type="Node" parent="." unique_id=1735343333 node_paths=PackedStringArray("click_handler", "regular_body")]
+script = ExtResource("3_nk337")
+click_handler = NodePath("../ClickHandlerComponent")
+regular_body = NodePath("..")
+metadata/_custom_type_script = "uid://bwcb2uppn6x2g"
