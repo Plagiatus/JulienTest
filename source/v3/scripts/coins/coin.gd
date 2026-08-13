@@ -1,11 +1,12 @@
-extends Node
+class_name Coin extends Node
 
+signal throw(toss: TossResource)
+signal land(result: TossResultResource)
 
-# Called when the node enters the scene tree for the first time.
+@export var toss_component: TossComponent
+
+static var COIN = preload("uid://dfrs0wikm6o54")
+
 func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+	toss_component.throw.connect(throw.emit)
+	toss_component.land.connect(land.emit)

@@ -1,8 +1,11 @@
 [gd_scene format=3 uid="uid://dfrs0wikm6o54"]
 
+[ext_resource type="Script" uid="uid://b1efhx0hugopc" path="res://scripts/coins/coin.gd" id="1_n00w2"]
 [ext_resource type="Texture2D" uid="uid://dbxngexl8mf8i" path="res://assets/coins/coin_basic.png" id="1_nyhrq"]
 [ext_resource type="Script" uid="uid://b3hxo52stcofc" path="res://scripts/components/click_handler_component.gd" id="2_nk337"]
 [ext_resource type="Script" uid="uid://bwcb2uppn6x2g" path="res://scripts/components/move_component.gd" id="3_nk337"]
+[ext_resource type="Script" uid="uid://b5okqoi72825p" path="res://scripts/components/toss_component.gd" id="4_juj78"]
+[ext_resource type="Script" uid="uid://b8j8embmujmml" path="res://scripts/resources/toss_resource.gd" id="5_jx2qo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_igf3p"]
 radius = 8.0
@@ -42,7 +45,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_v7riw")
 }],
 "loop": 0,
-"name": &"tails",
+"name": &"tail",
 "speed": 5.0
 }, {
 "frames": [{
@@ -63,11 +66,17 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="Coin" type="RigidBody2D" unique_id=230706520]
+[sub_resource type="Resource" id="Resource_juj78"]
+script = ExtResource("5_jx2qo")
+metadata/_custom_type_script = "uid://b8j8embmujmml"
+
+[node name="Coin" type="RigidBody2D" unique_id=230706520 node_paths=PackedStringArray("toss_component")]
 lock_rotation = true
 linear_damp = 5.0
+script = ExtResource("1_n00w2")
+toss_component = NodePath("TossComponent")
 
-[node name="CoinCollisionShape2" type="CollisionShape2D" parent="." unique_id=2085027984]
+[node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=2085027984]
 shape = SubResource("CircleShape2D_igf3p")
 
 [node name="Shadow" type="Sprite2D" parent="." unique_id=321885084]
@@ -82,9 +91,17 @@ animation = &"head"
 [node name="ClickHandlerComponent" type="Node2D" parent="." unique_id=2085990072 node_paths=PackedStringArray("clickable_shape")]
 script = ExtResource("2_nk337")
 clickable_shape = NodePath("..")
+grab_distance = 3
 
-[node name="MoveComponent" type="Node" parent="." unique_id=1735343333 node_paths=PackedStringArray("click_handler", "regular_body")]
+[node name="MoveComponent" type="Node" parent="." unique_id=1735343333 node_paths=PackedStringArray("click_handler")]
 script = ExtResource("3_nk337")
 click_handler = NodePath("../ClickHandlerComponent")
-regular_body = NodePath("..")
 metadata/_custom_type_script = "uid://bwcb2uppn6x2g"
+
+[node name="TossComponent" type="Node" parent="." unique_id=2037845683 node_paths=PackedStringArray("click_handler_comp", "collision_shape", "visuals", "shadow")]
+script = ExtResource("4_juj78")
+toss_info = SubResource("Resource_juj78")
+click_handler_comp = NodePath("../ClickHandlerComponent")
+collision_shape = NodePath("../CollisionShape")
+visuals = NodePath("../Visuals")
+shadow = NodePath("../Shadow")

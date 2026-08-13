@@ -1,8 +1,6 @@
 class_name MoveComponent extends Node
 
 @export var click_handler: ClickHandlerComponent
-@export var manual_body: CharacterBody2D
-@export var regular_body: RigidBody2D
 
 var target_position: Vector2
 var needs_to_move: bool = false

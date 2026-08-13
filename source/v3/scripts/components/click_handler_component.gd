@@ -1,7 +1,8 @@
 class_name ClickHandlerComponent extends Node2D
 
 @export var clickable_shape: CollisionObject2D
-@export var grab_distance_squared: float = 1.0
+@export var grab_distance: int = 1
+var grab_distance_squared: int = 1
 
 enum STATE {
 	IDLE,
@@ -16,6 +17,7 @@ signal tap
 signal move(to: Vector2)
 
 func _ready() -> void:
+	grab_distance_squared = grab_distance ** 2
 	if not clickable_shape:
 		return
 	
@@ -30,7 +32,7 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int):
 			if event.is_action_pressed("interact"):
 				start_point = get_global_mouse_position()
 				state = STATE.WAITING
-				prints("waiting")
+				# prints("waiting")
 
 func _unhandled_input(event: InputEvent) -> void:
 	if state == STATE.IDLE:
@@ -38,7 +40,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	match state:
 		STATE.WAITING:
 			if event.is_action_released("interact"):
-				prints("tap")
+				# prints("tap")
 				tap.emit()
 				state = STATE.IDLE
 			
@@ -48,12 +50,12 @@ func _unhandled_input(event: InputEvent) -> void:
 					state = STATE.GRABBED
 					grab.emit()
 					move.emit(current_pos)
-					prints("grab")
+					# prints("grab")
 		STATE.GRABBED:
 			if event.is_action_released("interact"):
 				release.emit()
-				prints("release")
+				# prints("release")
 				state = STATE.IDLE
 			elif event is InputEventMouseMotion:
 				move.emit(get_global_mouse_position())
-				prints("move")
+				# prints("move")
