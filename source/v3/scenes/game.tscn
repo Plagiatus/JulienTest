@@ -59,6 +59,9 @@ grow_horizontal = 2
 script = ExtResource("3_lnu2h")
 
 [node name="Totem" parent="." unique_id=1330368982 instance=ExtResource("3_lbhrr")]
-position = Vector2(383, 153)
+position = Vector2(546, 177)
+
+[node name="Totem2" parent="." unique_id=1571338221 instance=ExtResource("3_lbhrr")]
+position = Vector2(99, 90)
 
 [connection signal="money_changed" from="." to="CanvasLayer/Label" method="set_value"]

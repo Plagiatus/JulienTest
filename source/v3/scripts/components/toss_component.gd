@@ -17,14 +17,15 @@ signal land(result: TossResultResource)
 func _ready() -> void:
 	click_handler_comp.tap.connect(try_throw)
 
-func try_throw() -> void:
-	if is_throwing: return
+func try_throw() -> bool:
+	if is_throwing: return false
 	start_throw()
+	return true
 
 func start_throw() -> void:
 	var toss_data := toss_info.duplicate()
 	throw.emit(toss_data)
-	visuals.play("throw")
+	visuals.play("toss")
 	visuals.offset.y = -10
 	visuals.z_index += 2
 	shadow.z_index += 1

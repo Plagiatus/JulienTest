@@ -9,16 +9,16 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_igf3p"]
 radius = 16.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_n00w2"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_evpn7"]
 radius = 80.0
 
 [node name="Totem" type="RigidBody2D" unique_id=1330368982 node_paths=PackedStringArray("area_of_effect")]
 collision_layer = 2
-collision_mask = 0
+collision_mask = 2
 lock_rotation = true
 linear_damp = 10.0
 script = ExtResource("1_8eb13")
-area_of_effect = NodePath("AreaOfEffect")
+area_of_effect = NodePath("EffectComponent/AreaOfEffect")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1898635089]
 shape = SubResource("CircleShape2D_igf3p")
@@ -34,15 +34,15 @@ script = ExtResource("3_evpn7")
 click_handler = NodePath("../ClickHandlerComponent")
 metadata/_custom_type_script = "uid://bwcb2uppn6x2g"
 
-[node name="EffectComponent" type="Node2D" parent="." unique_id=2080598012 node_paths=PackedStringArray("area_of_effect")]
+[node name="EffectComponent" type="Node2D" parent="." unique_id=2080598012]
 script = ExtResource("5_evpn7")
-area_of_effect = NodePath("../AreaOfEffect")
 
-[node name="AreaOfEffect" type="Area2D" parent="." unique_id=861559555]
+[node name="AreaOfEffect" type="Area2D" parent="EffectComponent" unique_id=861559555]
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaOfEffect" unique_id=1018870761]
-shape = SubResource("CircleShape2D_n00w2")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EffectComponent/AreaOfEffect" unique_id=1018870761]
+shape = SubResource("CircleShape2D_evpn7")
+debug_color = Color(1, 1, 1, 0.498)
 
 [node name="Visuals" type="Sprite2D" parent="." unique_id=875336131]
 position = Vector2(0, -17)

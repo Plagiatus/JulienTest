@@ -62,7 +62,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_w14il")
 }],
 "loop": 1,
-"name": &"throw",
+"name": &"toss",
 "speed": 10.0
 }]
 
@@ -72,6 +72,7 @@ metadata/_custom_type_script = "uid://b8j8embmujmml"
 
 [node name="Coin" type="RigidBody2D" unique_id=230706520 node_paths=PackedStringArray("toss_component")]
 collision_mask = 7
+mass = 2.0
 lock_rotation = true
 linear_damp = 5.0
 script = ExtResource("1_n00w2")
@@ -87,7 +88,7 @@ frame = 3
 
 [node name="Visuals" type="AnimatedSprite2D" parent="." unique_id=1914245598]
 sprite_frames = SubResource("SpriteFrames_igf3p")
-animation = &"head"
+animation = &"toss"
 
 [node name="ClickHandlerComponent" type="Node2D" parent="." unique_id=2085990072 node_paths=PackedStringArray("clickable_shape")]
 script = ExtResource("2_nk337")

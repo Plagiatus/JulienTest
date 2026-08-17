@@ -1,0 +1,130 @@
+[gd_scene format=3 uid="uid://bwinures7hc1"]
+
+[ext_resource type="Script" uid="uid://b1efhx0hugopc" path="res://scripts/coins/coin.gd" id="1_22o1q"]
+[ext_resource type="Texture2D" uid="uid://cpccm6ko7e0gv" path="res://assets/coins/coin_heavy.png" id="2_si4d4"]
+[ext_resource type="Script" uid="uid://chio2sanhshb6" path="res://scripts/components/effects/toss_effect_component.gd" id="3_5kkyl"]
+[ext_resource type="Script" uid="uid://b3hxo52stcofc" path="res://scripts/components/click_handler_component.gd" id="4_dm3qg"]
+[ext_resource type="Script" uid="uid://bwcb2uppn6x2g" path="res://scripts/components/move_component.gd" id="5_4xrlt"]
+[ext_resource type="Script" uid="uid://b5okqoi72825p" path="res://scripts/components/toss_component.gd" id="6_uql2q"]
+[ext_resource type="Script" uid="uid://b8j8embmujmml" path="res://scripts/resources/toss_resource.gd" id="7_hx0gr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_igf3p"]
+radius = 8.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_si4d4"]
+atlas = ExtResource("2_si4d4")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5kkyl"]
+atlas = ExtResource("2_si4d4")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tn02x"]
+atlas = ExtResource("2_si4d4")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2uhwx"]
+atlas = ExtResource("2_si4d4")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mbl4b"]
+atlas = ExtResource("2_si4d4")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_igf3p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_si4d4")
+}],
+"loop": 1,
+"name": &"head",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5kkyl")
+}],
+"loop": 1,
+"name": &"tail",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tn02x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2uhwx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mbl4b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2uhwx")
+}],
+"loop": 1,
+"name": &"toss",
+"speed": 10.0
+}]
+
+[sub_resource type="Resource" id="Resource_5kkyl"]
+script = ExtResource("7_hx0gr")
+heads_value = 0.0
+metadata/_custom_type_script = "uid://b8j8embmujmml"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4bdg2"]
+radius = 50.0
+
+[node name="CoinHeavy" type="RigidBody2D" unique_id=2109645328 node_paths=PackedStringArray("toss_component")]
+collision_mask = 7
+mass = 2.0
+lock_rotation = true
+linear_damp = 10.0
+script = ExtResource("1_22o1q")
+toss_component = NodePath("TossComponent")
+metadata/_custom_type_script = "uid://b1efhx0hugopc"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=334343380]
+shape = SubResource("CircleShape2D_igf3p")
+
+[node name="Shadow" type="Sprite2D" parent="." unique_id=1301986431]
+texture = ExtResource("2_si4d4")
+vframes = 4
+frame = 3
+
+[node name="Visuals" type="AnimatedSprite2D" parent="." unique_id=748408210]
+sprite_frames = SubResource("SpriteFrames_igf3p")
+animation = &"head"
+frame_progress = 0.3844002
+
+[node name="TossComponent" type="Node" parent="." unique_id=1458897211 node_paths=PackedStringArray("click_handler_comp", "collision_shape", "visuals", "shadow")]
+script = ExtResource("6_uql2q")
+toss_info = SubResource("Resource_5kkyl")
+click_handler_comp = NodePath("../ClickHandlerComponent")
+collision_shape = NodePath("../CollisionShape2D")
+visuals = NodePath("../Visuals")
+shadow = NodePath("../Shadow")
+metadata/_custom_type_script = "uid://b5okqoi72825p"
+
+[node name="ClickHandlerComponent" type="Node2D" parent="." unique_id=1566094813 node_paths=PackedStringArray("clickable_shape")]
+script = ExtResource("4_dm3qg")
+clickable_shape = NodePath("..")
+metadata/_custom_type_script = "uid://b3hxo52stcofc"
+
+[node name="MoveComponent" type="Node" parent="." unique_id=1610235008 node_paths=PackedStringArray("click_handler")]
+script = ExtResource("5_4xrlt")
+click_handler = NodePath("../ClickHandlerComponent")
+metadata/_custom_type_script = "uid://bwcb2uppn6x2g"
+
+[node name="TossEffectComponent" type="Node2D" parent="." unique_id=266012330]
+script = ExtResource("3_5kkyl")
+color = Color(0.5764706, 0.5686275, 0.7607843, 0.4509804)
+metadata/_custom_type_script = "uid://chio2sanhshb6"
+
+[node name="Area2D" type="Area2D" parent="TossEffectComponent" unique_id=1196621404]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TossEffectComponent/Area2D" unique_id=833164746]
+shape = SubResource("CircleShape2D_4bdg2")
+debug_color = Color(0.5764706, 0.5686275, 0.7607843, 0.4509804)
+
+[connection signal="land" from="TossComponent" to="TossEffectComponent" method="toss" unbinds=1]
